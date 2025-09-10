@@ -1,9 +1,10 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :set_book, only: %i[ show edit update destroy confirm_delete ]
 
   # GET /books or /books.json
+  # Home Page — list all books
   def index
-    @books = Book.all
+    @books = Book.all.order(created_at: :desc)
   end
 
   # GET /books/1 or /books/1.json
@@ -23,38 +24,33 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
 
-    respond_to do |format|
-      if @book.save
-        format.html { redirect_to @book, notice: "Book was successfully created." }
-        format.json { render :show, status: :created, location: @book }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.save
+      redirect_to root_path, notice: "Book was successfully created."
+    else
+      flash.now[:alert] = "Unable to create book. Please check the form."
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /books/1 or /books/1.json
   def update
-    respond_to do |format|
-      if @book.update(book_params)
-        format.html { redirect_to @book, notice: "Book was successfully updated." }
-        format.json { render :show, status: :ok, location: @book }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.update(book_params)
+      redirect_to root_path, notice: "Book was successfully updated."
+    else
+      flash.now[:alert] = "Unable to update book. Please check the form."
+      render :edit, status: :unprocessable_entity
     end
+  end
+
+  # GET /books/1/confirm_delete
+  def confirm_delete
+    # renders confirm_delete.html.erb
   end
 
   # DELETE /books/1 or /books/1.json
   def destroy
     @book.destroy
-
-    respond_to do |format|
-      format.html { redirect_to books_path, status: :see_other, notice: "Book was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to root_path, notice: "Book was successfully deleted."
   end
 
   private

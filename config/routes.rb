@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
-  resources :books
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get 'tasks/index'
+  get 'tasks/new'
+  get 'tasks/edit'
+  root "books#index"
+  resources :books do
+    member do
+      get :confirm_delete
+    end
+  end
 end
