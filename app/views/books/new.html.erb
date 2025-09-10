@@ -1,5 +1,25 @@
-<h1>New Book</h1>
+<% if flash[:notice] %>
+  <p class="notice"><%= flash[:notice] %></p>
+<% end %>
 
-<%= render 'form', book: @book %>
+<% if flash[:alert] %>
+  <p class="alert"><%= flash[:alert] %></p>
+<% end %>
+
+<%= form_with(model: @book, local: true) do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :author %>
+  <%= f.text_field :author %>
+
+  <%= f.label :price %>
+  <%= f.number_field :price, step: 0.01 %>
+
+  <%= f.label :published_date %>
+  <%= f.date_select :published_date %>
+
+  <%= f.submit "Create Book" %>
+<% end %>
 
 <%= link_to 'Back', books_path %>
