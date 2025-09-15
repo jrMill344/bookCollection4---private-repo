@@ -27,10 +27,10 @@ class BooksController < ApplicationController
     if @book.save
       redirect_to root_path, notice: "Book was successfully created."
     else
-      flash.now[:alert] = "Unable to create book. Please check the form."
+      flash.now[:alert] = @book.errors.full_messages.join(", ")
       render :new, status: :unprocessable_entity
     end
-  end
+end
 
   # PATCH/PUT /books/1 or /books/1.json
   def update
