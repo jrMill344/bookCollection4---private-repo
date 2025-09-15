@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  get 'tasks/index'
-  get 'tasks/new'
-  get 'tasks/edit'
-  root "books#index"
+  resources :user_books
+  resources :users
+  root "user_books#index"
+  
   resources :books do
     member do
       get :confirm_delete
