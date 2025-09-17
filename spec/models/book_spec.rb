@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 RSpec.describe Book, type: :model do
   describe 'validations' do
     it 'is valid with a title, author, price, and published_date' do
-=======
-require 'rails_helper'
-
-RSpec.describe Book, type: :model do
-  describe "validations" do
-    it "is valid with valid attributes" do
->>>>>>> dev
       book = Book.new(
         title: "Sample Book",
         author: "John Doe",
@@ -18,7 +10,6 @@ RSpec.describe Book, type: :model do
       expect(book).to be_valid
     end
 
-<<<<<<< HEAD
     it 'is invalid without a title' do
       book = Book.new(
         title: nil,
@@ -57,7 +48,24 @@ RSpec.describe Book, type: :model do
         published_date: Date.today
       )
       expect(book).to be_valid
-=======
+    end
+  end
+end
+
+require 'rails_helper'
+
+RSpec.describe Book, type: :model do
+  describe "validations" do
+    it "is valid with valid attributes" do
+      book = Book.new(
+        title: "Sample Book",
+        author: "John Doe",
+        price: 9.99,
+        published_date: Date.today
+      )
+      expect(book).to be_valid
+    end
+
     it "is invalid without a title" do
       book = Book.new(title: nil)
       book.valid?
@@ -80,7 +88,6 @@ RSpec.describe Book, type: :model do
       book = Book.new(published_date: nil)
       book.valid?
       expect(book.errors[:published_date]).to include("can't be blank")
->>>>>>> dev
     end
   end
 end
